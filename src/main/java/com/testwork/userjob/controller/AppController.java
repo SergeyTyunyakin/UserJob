@@ -30,10 +30,10 @@ public class AppController {
 
     @PostMapping(value = "/create-userjob", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createUserJob(@RequestBody UsersFullDTO usersFullDTO) {
-        if (usersRepository.findOneById(Optional.ofNullable(usersFullDTO.getUsers().getId())) != null) {
+        if (!usersRepository.findOneById(Optional.ofNullable(usersFullDTO.getUsers().getId())).isEmpty()) {
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
-        if (companyRepository.findOneById(Optional.ofNullable(usersFullDTO.getUsers().getId())) != null) {
+        if (!companyRepository.findOneById(Optional.ofNullable(usersFullDTO.getUsers().getId())).isEmpty()) {
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
         saveDataService.saveData(usersFullDTO);
